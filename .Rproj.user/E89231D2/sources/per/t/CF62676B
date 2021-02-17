@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1613596512953.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "283804497",
+    "id" : "CF62676B",
+    "lastKnownWriteTime" : 1613596325,
+    "last_content_update" : 1613596325,
+    "path" : "~/econ_5300/Data_Exploration_Assignment/code/Data_Exploration_Assignment_Wolfe.Rmd",
+    "project_path" : "code/Data_Exploration_Assignment_Wolfe.Rmd",
+    "properties" : {
+        "cursorPosition" : "19,3",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_markdown"
+}

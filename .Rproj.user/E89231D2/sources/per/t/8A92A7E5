@@ -1,0 +1,23 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1613596545657.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "519441770",
+    "id" : "8A92A7E5",
+    "lastKnownWriteTime" : 1613596570,
+    "last_content_update" : 1613596570625,
+    "path" : "~/econ_5300/Data_Exploration_Assignment/code/tidy_data.R",
+    "project_path" : "code/tidy_data.R",
+    "properties" : {
+        "cursorPosition" : "1,0",
+        "scrollLine" : "0",
+        "tempName" : "Untitled1"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
