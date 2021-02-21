@@ -7,14 +7,92 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+source("../code/tidy_data.R", local = FALSE)
+
 ```
 
-## R Markdown
+## Research Question:
 
-```{r}
+The College Scorecard was released at the start of September 2015. Among colleges that predominantly grant bachelor’s degrees, did it result in more student interest in high-earnings colleges relative to low-earnings ones (as proxied by Google searches for keywords associated with those colleges)?
+
+```{r,include=FALSE}
 # Load relevant libraries
 library(tidyverse)
 library(vtable)
 library(car)
 library(jtools)
 ```
+
+## Data Preparation:
+
+In order to run any analysis data tidying needed to be performed. The end goal data frame needed to have the Google trend data, the school information, and the College Scorecard data. This required merging multiple files as well as detecting and removing duplicate data.
+
+Google trend data was merged with an intermediary file that contained school names and a key. This resulting data frame was then merged with the College Scorecard data frame. During the process duplicates were checked for and eliminated and the Scoreboard data was filtered for universities primarily issuing Bachelor degrees.
+
+The index data were turned into two variables. The first variable "index" is the standardized index scored based on keywords used to search for the univerisites. The second variable "mo_index" is an averaged index score for each university on a monthly basis using the standardized index. Index scores from Google trends are relative, thus not allowing them to be compared to index scores from other entities. Standardizing these scores allows us to compare the index scores between schools.
+
+Two dummy variables were created. The first variable "post_report" is for use in identifying data from before the College Scoreboard was released. 0 is for data pre 01-09-2015 and 1 is for data collected afer. The second variable "earning status" is based on the median reported earnings for students 10 years post graduation per school. Schools that had a value bellow the median were given 0 while schools reporting the median or higher were given 1. The median value was chosen because of a strong right hand skew resulting from high earnings at mostly medical schools.
+
+## Analysis:
+
+The research question boiled down is asking what effect, if any, did the release of the College Scorecard have on Google search trends with a particular interest in reported alumi earnings. A logical prediction would be that schools with higher reported earnings would also have greater search index scores compared to lower earning schools.
+
+To address this question the variables need to be determined. The variable of interest is the search index score. Index is the dependant variable becuase it is the variable to be predicted. College Scorecard average 10 year earnings is the independnt variable being used to predict the index score.
+
+The question is interested in the schools and not on the keywords associated with them. This leads me to believe the best way to utilize the index score is to use a monthly index for each school that is calculated using the average index score of all associated keywords.
+
+We also are interested in any possible relationship of high and low earning schools so this variable is to be included as a dummy variable with 0 being low and 1 being high.
+
+We also need to consider the date of the College Scorecard release in order to compare the index scores. This is also included as a dummy variable with 0 being pre and 1 being post 01-09-2015.
+
+This regression will tell us the relationship between the reported earnings and search index scores, along with and effect of high reported income and the release of the College Scorecard.
+
+This is the described regression:
+
+monthly index = b0 + b1(earnings) + b2(earning status) + b3(scorecard release)
+
+```{r}
+reg <- lm(mo_index ~ yr10_earnings + earning_status + post_report, data = analysis_df)
+export_summs(reg)
+
+```
+Table 1
+
+```{r}
+effect_plot(reg, pred = 'yr10_earnings', plot.points = TRUE)
+```
+Figure 1
+
+```{r}
+effect_plot(reg, pred = 'earning_status', plot.points = TRUE)
+```
+Figure 2
+
+```{r}
+effect_plot(reg, pred = 'post_report', plot.points = TRUE)
+```
+Figure 3
+
+## Results and Conclusion:
+
+There appears to be no relationship between the monthly index scores and the reported average earnings. This is also shown in Figure 1. There is no apparent linear relationship shown in the data points. What can be seen is the right hand skew due to a handful of medical schools.
+
+There is also no relationship between monthly index scores and the high/low earning classification. An interesting note is that there are a handful of outliers in the low earning group with high index scores.
+
+There is a statistically signifcant negative relationship between index scores and College Scorecard release. Index scores after the release of the College Scorecard saw a 0.17 unit decrease. This relationship is significant at greater than the 99% level.
+
+All of these findings are interesting as they are not as I would have expected. I expected to find an increase in index scores for high earning schools stemming from students hoping to earn higher incomes post education. I also expected index scores to go up following the release of the scorecard due to a possible increase in news attention and social awareness. A possible explanation is the College Scorecard has hyperlinks direct to school websites and additional information negating the need for indivduals to use search engines to find what they are looking for. 
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
